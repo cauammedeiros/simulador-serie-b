@@ -1,11 +1,8 @@
 name: Atualizar Simulador
 on:
   schedule:
-    - cron: '0 8 * * *'
-  workflow_dispatch:
-
-permissions:
-  contents: write
+    - cron: '0 8 * * *' # Roda todo dia às 08:00
+  workflow_dispatch: # Permite rodar manualmente
 
 jobs:
   build:
@@ -27,10 +24,26 @@ jobs:
           javac *.java
           java Main
           
-      - name: Publicar no GitHub Pages
+      - name: Preparar Pagina
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add relatorio_simulacao.html
-          git commit -m "Auto-update relatorio" || exit 0
-          git push
+          mkdir -p _site
+          cp relatorio_simulacao.html _site/index.html
+          
+      - name: Upload das paginas
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
