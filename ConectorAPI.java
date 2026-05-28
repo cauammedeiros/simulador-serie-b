@@ -8,8 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ConectorAPI {
-    private static final String KEY = "0cdf85ef9cmsh7a4b544a6e46f70p1598e9jsnb3b9eb7f22f0";
-    private static final String HOST = "sofascore6.p.rapidapi.com";
+    private static final String KEY = System.getenv("API_KEY");
+    private static final String HOST = System.getenv("API_HOST");
 
     public static ArrayList<Time> buscarDadosSerieB() {
         ArrayList<Time> listaTimes = new ArrayList<>();
