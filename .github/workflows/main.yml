@@ -1,8 +1,8 @@
 name: Atualizar Simulador
 on:
   schedule:
-    - cron: '0 8 * * *' # Roda todo dia às 08:00
-  workflow_dispatch: # Permite rodar manualmente
+    - cron: '0 8 * * 2' 
+  workflow_dispatch:
 
 jobs:
   build:
